@@ -1,3 +1,10 @@
-# GraphQL Subscription Demo
+How To Run ?
 
-This repo demonstrates the usage of apollo graphql library with subscription and also on how to cancel the active subscription on certain event.
+Client :
+- npm run start
+
+Server :
+- node index.js
+
+Selenium :
+- npm run selenium
