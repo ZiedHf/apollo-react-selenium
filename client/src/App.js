@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Layout, Row, Col, Modal } from 'antd'
 import {
   ApolloClient,
@@ -54,7 +54,7 @@ const COUNT_SUBSCRIPTION = gql`
   }
 `
 
-function Counter() {
+/* function Counter() {
   const { loading, error, data, subscribeToMore } = useQuery(COUNT_QUERY)
 
   const [modalVisible, setModalVisible] = React.useState(false)
@@ -65,7 +65,10 @@ function Counter() {
     if (!modalVisible) {
       unsubscribe = subscribeToMore({
         document: COUNT_SUBSCRIPTION,
-        updateQuery: (prev, { subscriptionData }) => {
+        updateQuery: (prev, newData) => {
+          console.log('prev', prev);
+          console.log('newData', newData);
+          const { subscriptionData } = newData;
           if (!subscriptionData.data) return prev
 
           return {
@@ -96,9 +99,10 @@ function Counter() {
       </Modal>
     </>
   )
-}
+} */
 
 function App() {
+  const [show, setShow] = useState(false);
   return (
     <ApolloProvider client={client}>
       <Layout style={{ height: '100vh' }}>
@@ -112,7 +116,12 @@ function App() {
         >
           <Row>
             <Col span={24} style={{ textAlign: 'center', padding: '16px 0' }}>
-              <Counter />
+              <button onClick={() => setShow(a => !a)}>Toggle</button>
+            </Col>
+            <Col span={24} style={{ textAlign: 'center', padding: '16px 0' }}>
+              {
+               /* show && <Counter /> */
+              }
             </Col>
           </Row>
         </Layout.Content>

@@ -10,34 +10,48 @@ const COUNT_INCREMENTED = 'COUNT_INCREMENTED'
 
 let count = 1
 
-const interval = setInterval(() => {
+/* const interval = setInterval(() => {
   count += 1
   pubsub.publish(COUNT_INCREMENTED, { count })
-}, 3000)
+}, 3000); */
 
 const typeDefs = gql`
   type Query {
     count: Int
   }
-
-  type Subscription {
-    count: Int
-  }
-`
+  `
+  
+    /* type Subscription {
+      count: Int
+    } */
 
 const resolvers = {
   Query: {
     count: () => count
-  },
-
-  Subscription: {
-    count: {
-      subscribe: () => pubsub.asyncIterator([COUNT_INCREMENTED])
-    }
   }
 }
+/**
+ * ,
+  Subscription: {
+    count: {
+      subscribe: () => {
+        console.log("subscribe");
+        return pubsub.asyncIterator([COUNT_INCREMENTED]);
+      }
+    }
+  }
+ */
 
-const server = new ApolloServer({ typeDefs, resolvers })
+const server = new ApolloServer({
+  typeDefs,
+  resolvers,
+  subscriptions: {
+    onConnect: (_, ws) => {
+      console.log('onConnect');
+      ws.onclose = ev => console.log(ev.wasClean, ev.code);
+    }
+  }
+})
 server.applyMiddleware({ app })
 
 const httpServer = http.createServer(app)
